@@ -259,3 +259,33 @@ Average price of products.
 Most expensive product.
 Cheapest product.
 Use higher-order array functions like reduce, map, and sort. */
+
+// Fetch the total number of products
+fetch("https://fakestoreapi.com/products")
+    .then((response) => response.json()) // Parse the response to JSON
+    .then((data) => {
+        // Total number of products
+        const totalProducts = data.length;
+
+        // Average price of products
+        const totalPrice = data.reduce((sum, product) => sum + product.price, 0);
+        const averagePrice = totalPrice / totalProducts;
+    
+        // Finding most expensive product
+        const mostExpensiveProduct = data.reduce((max, product) => (product.price > max.price ? product : max), data[0]);
+
+        // Finding most cheapest product
+        const cheapestProduct = data.reduce((min, product) => (product.price < min.price ? product : min), data[0]);
+
+        // Logging the results
+        console.log(`Total number of products: ${totalProducts}`);
+        console.log(`Average price of products: $${averagePrice.toFixed(2)}`);
+        console.log(`Most expensive product: ${mostExpensiveProduct.title}, Price: $${mostExpensiveProduct.price}`);
+        console.log(`Cheapest product: ${cheapestProduct.title}, Price: $${cheapestProduct.price}`);
+
+
+    })
+    .catch((error) => {
+        //Log any errors that occur during fetch
+        console.log("Error:", error.message);
+    });
